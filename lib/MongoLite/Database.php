@@ -39,7 +39,6 @@ class Database {
         $dns = "sqlite:{$path}";
 
         $this->path = $path;
-        die($dns);
         $this->connection = new \PDO($dns, null, null, $options);
 
         $database = $this;
