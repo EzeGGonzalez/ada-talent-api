@@ -12,8 +12,6 @@ try {
 
 } catch (Exception $e) { }
 
-require(__DIR__.'/../bootstrap.php');
-
 // misc checks
 $checks = array(
     "Php version >= 5.4.0"                              => (version_compare(PHP_VERSION, '5.4.0') >= 0),
@@ -31,6 +29,8 @@ foreach($checks as $info => $check) {
         exit;
     }
 }
+
+require(__DIR__.'/../bootstrap.php');
 
 $app = cockpit();
 
