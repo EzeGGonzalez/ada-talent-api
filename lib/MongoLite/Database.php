@@ -39,6 +39,7 @@ class Database {
         $dns = "sqlite:{$path}";
 
         $this->path = $path;
+        die($dns);
         $this->connection = new \PDO($dns, null, null, $options);
 
         $database = $this;
@@ -49,9 +50,9 @@ class Database {
             $val      = '';
 
             if (strpos($key, '.') !== false) {
-                
+
                 $keys = explode('.', $key);
-                
+
                 switch(count($keys)) {
                     case 2:
                         $val = isset($document[$keys[0]][$keys[1]]) ? $document[$keys[0]][$keys[1]] : '';
@@ -249,7 +250,7 @@ class UtilArrayQuery {
                     $d = '$document';
 
                     if (strpos($key, ".") !== false) {
-                        
+
                         $keys = explode('.', $key);
 
                         foreach ($keys as $k) {
@@ -359,7 +360,7 @@ class UtilArrayQuery {
                     throw new \InvalidArgumentException('Function should be callable');
                 $r = $b($a);
                 break;
-            
+
             case '$exists':
                 $r = $b ? !is_null($a) : is_null($a);
                 break;
@@ -371,8 +372,8 @@ class UtilArrayQuery {
 
                 if (is_array($b) && isset($b['search'])) {
 
-                    if (isset($b['minScore']) && is_numeric($b['minScore'])) $minScore = $b['minScore']; 
-                    if (isset($b['distance']) && is_numeric($b['distance'])) $distance = $b['distance']; 
+                    if (isset($b['minScore']) && is_numeric($b['minScore'])) $minScore = $b['minScore'];
+                    if (isset($b['distance']) && is_numeric($b['distance'])) $distance = $b['distance'];
 
                     $b = $b['search'];
                 }
@@ -395,17 +396,17 @@ function levenshtein_utf8($s1, $s2) {
 
     $map = [];
     $utf8_to_extended_ascii = function($str) use($map) {
-       
+
         // find all multibyte characters (cf. utf-8 encoding specs)
         $matches = array();
-        
+
         if (!preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)) return $str; // plain ascii string
-        
+
         // update the encoding map with the characters not already met
         foreach ($matches[0] as $mbc) {
             if (!isset($map[$mbc])) $map[$mbc] = chr(128 + count($map));
         }
-        
+
         // finally remap non-ascii characters
         return strtr($str, $map);
     };
@@ -436,7 +437,7 @@ function fuzzy_search($search, $text, $distance = 3){
                 }
             }
         }
-        
+
     }
 
     return $score / count($needles);
